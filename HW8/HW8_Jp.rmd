@@ -1,0 +1,92 @@
+---
+title: "HW8_Jayapats"
+author: "Swetha Jayapathy"
+date: "12/2/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r imp}
+library(Sleuth3)
+library(ggplot2)
+```
+
+
+```{r h}
+head(ex0728)
+```
+
+Question 1
+Produce a scatterplot of Activity vs. Years with fitted regression line. Include R code and the plot. Does the linearity assumption appear to be met?
+
+
+Yes, from the below plot we can say that the linearity assumption is met.
+
+```{r 1, echo=TRUE}
+ggplot(ex0728, aes(x=Years, y=Activity))+
+geom_point(size=I(4))+
+geom_smooth(method = lm, se=FALSE)
+```
+
+
+Question 2
+
+```{r Q2, , results="hide"}
+ex0728_lm <- lm(Activity~Years, data=ex0728)
+summary(ex0728_lm)
+```
+
+```{r Q2b, , results="hide"}
+ex0728_lm$coefficients
+```
+
+Estimated Regression equation:
+µ{Xi|Yi} = 8.3873 + 0.9971(Xi)
+
+
+                                        (1.1149)   (0.1110)
+
+Xi = Years,
+
+Yi = Activity
+
+
+
+Question 3
+```{r Q3, , results="hide"}
+confint(ex0728_lm)
+```
+
+Confidence Interval for Intercept =5.9786877 to 10.79582
+
+
+Confidence Interval for Slope prameters = 0.7572415 to 1.23704
+
+
+
+Question 4
+
+Statistical Conclusion:
+We estimate the population mean neuronal activity index after 0 years of playing string instrument is 5.9786877 to 10.79582 units (95% CI, SLR).
+
+
+
+
+Question 5
+```{r Q5}
+predict(ex0728_lm, data.frame(Years= 15), se.fit = TRUE,interval = "confidence")
+```
+Statistical Conclusion:
+We estimate the population mean neuronal activity index after 15 years of playing a string instrument is 20.83057 to 25.85816 units (95% CI, SLR).
+
+
+
+Question 6
+```{r Q6}
+predict(ex0728_lm, data.frame(Years= 15), se.fit = TRUE,interval = "prediction")
+```
+Statistical Conclusion:
+It is predicted that the neuronal index after 15 years of playing a string instrument is 16.37407 to 30.31466 units (95% PI, SLR).

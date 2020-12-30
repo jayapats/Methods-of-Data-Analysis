@@ -1,0 +1,148 @@
+---
+title: "HW7_Jayapats"
+author: "Swetha Jayapathy"
+date: "11/24/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r imp}
+library(Sleuth3)
+library(ggplot2)
+```
+
+```{r importData}
+HW7Dat <- read.csv("D:/D drive contents/Fall 2020/Stats 511/Class/HW/HW7/Meniscus.csv")
+```
+
+Question 1a
+Produce side-by-side boxplots of stiffness for each repair methods.
+```{r qplot1, echo=TRUE}
+qplot(Method, Stiff, data=HW7Dat, geom="boxplot")
+```
+ 
+ 
+Question 1b
+Produce an ANOVA table.
+ 
+```{r ANOVAtable}
+HW7Dat_aov<-aov(Stiff~Method, data=HW7Dat)
+anova(HW7Dat_aov)
+```
+
+
+Question 1c
+Produce a plot of the residuals vs. fitted values. Comment on the plausibility of the equal variance and normality assumptions based on this plot.
+```{r plot, echo=TRUE}
+plot(HW7Dat_aov,which=1)
+```
+Normality Assumption:
+Looking at the plot, we could see that the data is almost symmetric accross 0 and hence we can assume the Normality assumption for all the populations.
+
+Equal Variance Assumption:
+The vertical spread of data is not equal between the populations and hence we cannot assume the equal variance assumption.
+
+
+
+
+
+Question 2a: 
+Use the Tukey-Kramer procedure to calculate simultaneous 95% confidence intervals for all three pairwise comparisons. Include your R code and output.
+```{r 2a}
+TukeyHSD(HW7Dat_aov)
+```
+
+
+Question 2b: 
+Write a statistical conclusion for the Tukey-Kramer results stating which pair(s) of means are found to be different.
+
+
+statistical conclusion:
+The population mean stiffness is estimated to be different for 2 of the pairs, Meniscus Arrow & FasT-Fix and Vertical suture & Meniscus Arrow (95% Tukey-Kramer CI, Refer to table)
+
+
+
+Question 3a
+Suppose the researchers had pre-planned to compare FF to each of the other two methods.
+Use Dunnett’s method to estimate these two pairwise comparisons at a 95% familywise confidence level. Include your R code and output.
+
+```{r 3a}
+Meniscus <- read.csv("D:/D drive contents/Fall 2020/Stats 511/Class/HW/HW7/Meniscus.csv", stringsAsFactors=TRUE)
+summary(Meniscus$Method)
+```
+```{r 3Cal_Dunnet}
+library(multcomp)
+Meniscus_aov <- aov(Stiff~Method, data=Meniscus)
+Meniscus_glht<- glht(Meniscus_aov,linfct=mcp(Method="Dunnett"))
+confint(Meniscus_glht)
+```
+
+Question 3b
+Write a statistical conclusion for the Dunnett’s results stating which pair(s) of means are found to be different.
+
+We estimate that there is a difference between population mean stiffness of Meniscus Arrow and FasT-Fix methods, whereas no difference between population mean stiffness of Vertical Structure and FasT-Fix (95% Dunnett's CI's, Refer to table). 
+
+
+
+Question 4
+Bonferroni procedure
+```{r 4a}
+alpha <- 0.05/2 # Set Bonferroni alpha to nominal alpha divided by k.
+alpha
+```
+```{r 4aMult}
+(M <- qt(1-alpha/2, 15))#Calculating the Multiplier for Bonferroni
+```
+```{r 4aMean}
+with(Meniscus, unlist(lapply(split(Stiff,Method), mean)))
+with(Meniscus, unlist(lapply(split(Stiff,Method), length)))
+```
+
+```{r 4aCI}
+#Comparison for the mean of FF to the average of the means of MA and VS
+pt_est <- 7.70 - (6.10+7.75)/2 #Point estimate
+SE <- sqrt(1.061)*sqrt(1/6 + 2*(0.5)^2/6)
+pt_est - M*SE
+pt_est + M*SE
+```
+
+Confidence Interval when the mean of FF is compared to the average of the means of MA and VS is -0.5073 to 2.0573
+
+
+```{r 4bCI}
+#Comparison of the means of MA and VS to each other
+pt_est <- 6.10-7.75 #Point estimate
+SE <- sqrt(1.061)*sqrt(1/6 + 1/6)
+pt_est - M*SE
+pt_est + M*SE
+```
+
+Confidence Interval when the means of MA and VS is compared to each other is -3.1307 to -0.16927 
+
+
+
+Question 5a
+Suppose after looking at side-by-side boxplots, the researchers decided to compare the
+population mean for MA with the average population mean for the other two methods.
+
+Use Scheff´e’s method to estimate this comparison with a confidence level of 95%. Include your R code. State the resulting confidence interval.
+
+
+```{r 5}
+(M<-sqrt(2 * qf(0.95, 2, 15))) #Scheff Multiplier
+SE <- sqrt(1.061) * sqrt(1/6 + (0.5)^2/6 + (0.5)^2/6)
+(6.10 - (7.70+7.75)/2) - M*SE
+(6.10 - (7.70+7.75)/2)  + M*SE
+```
+Confidence Interval when population mean of MA is compared to the average population mean of other two methods is -3.022 to -0.227
+
+
+Question 5b
+Does your Scheff´e confidence interval tell you that the population mean stiffness for method MA is different from the average population mean stiffness for the other two
+methods? Briefly explain.
+
+
+Yes, there is a difference between the population mean stiffness of Meniscus Arrow method and the average population mean stiffness of the other two methods as we could see from 5a that zero is not present in the confidence interval.

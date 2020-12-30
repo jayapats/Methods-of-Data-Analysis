@@ -1,0 +1,123 @@
+---
+title: "Homework5"
+author: "Swetha Jayapathy"
+date: "11/4/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r imp}
+library(Sleuth3)
+library(ggplot2)
+```
+
+```{r importData}
+HW5Dat <- read.csv("D:/D drive contents/Fall 2020/Stats 511/Class/HW/HW5/Cotton.csv")
+```
+
+Question 1a:
+```{r qplot1, echo=TRUE}
+qplot(Variety, Luminance, data=HW5Dat, geom="boxplot")
+```
+
+
+Question 1b:
+Normality :
+Looking at the box plot, since the median line is almost at the middle of the boxes and the data does not looks skewed, we could say that the Normality assumption holds good.
+
+Equal Standard Deviation :
+The height of the boxes differ so much and hence the data is not equally spread. Hence we cannot say that the equal standard deviation holds for this data.
+
+Independence:
+Since 4 samples of each variety of cotton is randomly selected, we could say that the independence assumption holds good.
+
+
+
+Question 1c:
+```{r smry}
+with(HW5Dat, unlist(lapply(split(Luminance, Variety), length)))
+```
+
+```{r sd}
+with(HW5Dat, unlist(lapply(split(Luminance, Variety), sd)))
+```
+
+We could see from the data that the sample sizes for all the variety are equal. We could also see from the above result that the ratio of the largest of standard deviation to the smallest of standard deviation is 3.179 which not much larger to 3. The population is also normal as from the above box plot it can be seen that the data is not that much skewed and the median is almost at the middle of the box for all the verieties. Therefore, it can be said that ANOVA F-test is appropriate for the cotton data.
+
+
+
+Question 1d:
+Let µ1,µ2,µ3,µ4 and µ5 be the population mean of Giza68,Giza69,Giza70,Menoufi and Pima respectively.
+
+Null Hypothesis :
+H0 : µ1=µ2=µ3=µ4=µ5
+Alternate Hypothesis :
+Let µi denote any of the above mentioned population mean.
+HA : Atleast one of the µi is different.
+
+
+
+Question 1e:
+```{r ANOVA}
+HW5Dat_aov <- aov(Luminance~Variety, data=HW5Dat)
+HW5Dat_aov
+```
+
+One-way ANOVA test and Output:
+```{r ANOVA test}
+anova(HW5Dat_aov)
+```
+
+
+Question 1f:
+Statistical Conclusion:
+Significant evidence that the population mean of the luminance of Giza68,Giza69,Giza70,Menoufi and Pima are all not equal. That is, atleast one of the population mean is different from other(p=0.0005416, one way ANOVA F-test).
+
+
+
+Question 1g:
+Calculate a 95% confidence interval for the difference between the population mean
+luminance for the Giza68 and Giza69 cotton :
+
+```{r CI}
+with(HW5Dat, unlist(lapply(split(Luminance, Variety), mean)))
+```
+
+```{r t quantile for 95% CI}
+qt(0.975,15)
+```
+```{r CIStartRange}
+(38.0000-37.2675)-2.13145*sqrt(0.13565)*sqrt(1/4 + 1/4)
+```
+```{r CIEndRange}
+(38.0000-37.2675)+2.13145*sqrt(0.13565)*sqrt(1/4 + 1/4)
+```
+Thus CI ranges from 0.1774015 to 1.287598 cd/m^2.
+
+
+
+Question 1h:
+Statistical Conclusion :
+We estimate that the mean luminance of the Giza68 veriety is 0.1774 to 1.2875 cd/m^2 more than the mean luminance of Giza69 veriety (95% Confidence Interval).
+
+
+
+Question 1i:
+Scope of Inference :
+The samples were not randomly selected from a general population. Therefore we could say that there is no causation as it is an observational study. Since the sample was randomly selected from each veriety of cotton, we could say that inferences to the population can be drawn. It can be seen from the ANOVA F-test that there is a difference in the population means between the variety of cottons. For example the mean luminance of the Giza68 is 0.1774 to 1.2875 cd/m^2 more than the mean luminance of Giza69.
+
+
+
+```{r CI1}
+(401.8000-356.2222)+2.109816*sqrt(1372.3)*sqrt(1/10 + 1/9)
+```
+
+Midterm
+```{r t quantile for 95% CI}
+qt(0.975,17)
+```

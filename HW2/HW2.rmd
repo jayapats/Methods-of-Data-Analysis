@@ -1,0 +1,107 @@
+---
+title: "Homework2"
+author: "Swetha Jayapathy"
+date: "10/13/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r imp}
+library(Sleuth3)
+library(ggplot2)
+```
+
+```{r importData}
+HW2Dat <- read.csv("D:/D drive contents/Fall 2020/Stats 511/Class/HW/HW2/NavDat.csv")
+```
+
+```{r Data}
+head(HW2Dat)
+```
+
+
+Question 1a :
+```{r CalcDiffs}
+diffs <- with(HW2Dat, DT-M)
+diffs
+```
+
+
+Question 1b :
+qplot(diffs, geom="histogram")
+
+```{r diffs, echo= TRUE}
+qplot(diffs, geom="histogram")
+```
+Question 1c
+```{r 1ca}
+(Ybar <- mean(diffs)) #Calculate the sample mean of the differences
+```
+
+```{r 1cb}
+(s <- sd(diffs))     #Calculate the sample standard deviation
+```
+```{r 1cc}
+(n <- length(diffs))         #Find the sample size
+```
+
+Question 1d
+```{r SE}
+(se_Ybar <- s/sqrt(n))    #Calculate the SE of the sample mean
+```       
+```{r tstat}
+Ybar/se_Ybar #t-statistics
+```       
+
+Question 1e
+```{r tstatFormula}
+with(HW2Dat, t.test(DT, M, paired=TRUE))
+```       
+
+Question 2a
+
+```{r HumerusHist, echo= FALSE}
+qplot(Status, Humerus, data=ex0221, geom="boxplot")
+```
+Statistical Conclusion:
+
+According to the 2 sample t-test, we can say that there is no significant evidence against the null hypothesis ; that is the mean difference of the length of humerus between the perished and the survived is non-zero (p-value = 0.0809). The mean differences between that of perished and survived from the t-test is 0.01 with a 95% confidence interval in the range -0.021446053 to 0.001279386.
+
+
+
+
+Question 2b
+```{r ttest}
+# To get 2 sided Confidence Interval
+t.test(Humerus~Status, data=ex0221, var.equal=TRUE)
+```      
+
+
+```{r Humerus, echo= TRUE}
+qplot(Status, Humerus, data=ex0221, geom="boxplot")
+```
+
+
+Question 3
+(a) Describe what is meant by the sampling distribution of the sample standard deviation.
+
+Sampling distribution of the sample standard deviation is the distribution under repeated sampling of the standard deviation which is computed by taking particular sample size of n samples from a population. This is the distribution which we get when we take an arbitrary number of samples and calculate the standard deviation of all the samples to plot in graph.
+
+
+(b) Describe what is meant by the sampling distribution of the sample maximum.
+
+Sampling distribution of the sample maximum is the distribution under repeated sampling of the maximum value which is computed by taking particular sample size of n samples from a population. This requires us to compute the sample maximum for each of the n samples. The distribution of these n sample maximum is the sampling distribution of sample standard deviations.
+
+
+
+
+
+
+
+

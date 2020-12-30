@@ -1,0 +1,122 @@
+---
+title: "Homework3"
+author: "Swetha Jayapathy"
+date: "10/20/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r imp}
+library(Sleuth3)
+library(ggplot2)
+```
+
+```{r importData}
+names(ex0332)
+```
+
+Question 1a
+```{r Data}
+head(ex0332)
+```
+
+
+Question 1b :
+```{r inState}
+with(ex0332, summary(InState))
+
+```
+
+```{r OutState}
+with(ex0332, summary(OutOfState))
+
+```
+
+Question 1c :
+
+```{r 1c, echo= TRUE}
+qplot(InState, data=ex0332, geom="histogram", xlim=c(0,50000)) + facet_grid(Type ~ .)
+
+```
+
+```{r 1cb, echo= TRUE}
+qplot(OutOfState, data=ex0332, geom="histogram", xlim=c(0,50000)) + facet_grid(Type ~ .)
+
+```
+
+
+
+Question 1d
+```{r 1d}
+#Summary of Public College
+log_OutOfState<-log(ex0332$OutOfState)
+with(ex0332, summary(log_OutOfState[Type=="Public"])) 
+```
+
+
+```{r 1db}
+#Summary of Private College
+log_OutOfState<-log(ex0332$OutOfState)
+with(ex0332, summary(log_OutOfState[Type=="Private"])) 
+```
+
+
+```{r loghist1, echo= TRUE}
+qplot(log_OutOfState, data=ex0332, geom="histogram") + facet_grid(Type ~ .) 
+```
+
+Question 1e
+
+Normality :
+This assumption states that the values are normally distributed. We can see from the graphs of the untransformed data of both the samples that it is very skewed and therefore it is not reasonable to apply this assumption. Whereas the distribution of the transformed data is normally distributed and hence it would be easy to apply our assumption.
+
+Equal Variance :
+As per the distribution and the box plot of untransformed data, equal variance does not apply due to its varying sizes. However, when the data is transformed, the box plots looks quite similar and hence equal variance makes sense
+
+
+Independence :
+Data in the two samples are collected randomly which results in random sampling. Data in both the groups are independent of each other. Therefore Independence assumption holds good in both untransformed data as well as transformed data.
+
+Question 1f
+
+```{r 1f}
+t.test(log_OutOfState~Type, data=ex0332, var.equal=TRUE, 
+       alternative="greater")        
+```
+It can be seen from the above 2 sample t-test that the mean of Out of State tuition fees is greater at Private college than that in Public college (p-value = 0.0001073).
+
+
+Question 1g
+```{r 1g}
+ exp(10.124980)/exp(9.646683)         
+```
+
+Statistical Conclusion 
+We have strong evidence that the median of Private Universities is higher than the median of Public Universities for Out of state tuition fees (p-value = 0.0001073). 
+
+Question 1h
+```{r 1h}
+t.test(log_OutOfState~Type, data=ex0332, var.equal=TRUE) 
+```       
+
+```{r 1hb}
+#exp(c(0.2381828, 0.7184111))
+exp(0.2381828)
+exp(0.7184111) 
+```       
+The 95% confidence interval for the difference in population mean ranges from 1.268941 to 2.051172.
+
+Question 1i
+
+Statistical Conclusion:
+
+It is evident that the log mean of Private Universities is higher than the log mean of Public Universities for Out of state tuition fees. The estimated ratio of median in Private college to the median in Public college for Out of State tuition fees is 1.613325(p-value = 0.0001073) with 95% confidence interval in the range 1.268941 to 2.051172.
+
+
+

@@ -1,0 +1,114 @@
+---
+title: "Homework 6"
+author: "Swetha Jayapathy"
+date: "11/17/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+```{r imp}
+library(Sleuth3)
+library(ggplot2)
+```
+
+Question 1:
+
+a) df for Treatment= 4
+```{r 1a}
+68-64
+```
+b) Sum of Squares for Treatment = 1226.9
+```{r 1b}
+5953.5 - 4726.6 
+```
+c) Mean Squares of Treatment = 306.725
+```{r 1c}
+1226.9/4
+```
+d) F-Stat = 4.153183
+```{r 1d}
+306.725/73.853
+```
+
+e) Residual Mean Square:  = 73.853
+```{r 1e}
+4726.6/64
+```
+
+
+Question 2a:
+Response variable is Oxygen.
+```{r 2a}
+head(ex0523)
+```
+Question 2b:
+
+```{r 2b}
+ex0523_aov <- aov(Oxygen~Bone, data = ex0523)
+anova(ex0523_aov)
+```
+
+Question 2c:
+
+Let µ{Yij} be the population mean of population where we got Yij.
+
+Full model:
+Full model is also known as Separate means model.
+                  µ{Yij} = µi 
+Where µi is the ith population mean and there are 'I' mean parameters.That is each group has its own mean :µ1, µ2......µi.In the Full model, Yij is normally distributed with standard deviation sigma.
+
+Reduced model:
+Reduced model is also known as Equal means model
+                  µ{Yij} = µ 
+where µ is the only mean parameter.The population here is normally distributed with standard deviation sigma.This is a special case of Separate means model.
+
+
+Question 2d:
+Extra sum of squares = 6.0675
+Extra degrees of freedom = 11
+Residual sum of squares for the full model = 2.9708
+Residual degrees of freedom for the full model = 40 
+
+
+Question 2e:
+```{r 2e}
+fitex0523_aov <- aov(Oxygen~1, data=ex0523)
+anova(fitex0523_aov)
+```
+
+Question 2f:
+Residual sum of squares for the reduced model in part (c) = 9.0383
+Residual degrees of freedom for the reduced model in part (c) = 51
+
+
+Question 2g:
+Residual sum of squares for the reduced model =  9.0383
+Residual sum of squares for the Full model = 2.9708
+```{r 2g}
+9.0383-2.9708
+```
+Therefore, the answer is equal to the extra sum of squares in part(d).
+
+
+Question 2h:
+Number of mean parameters in full model = 12
+Number of mean parameters in reduced model = 1
+
+Confirming that the extra degrees of
+freedom in part (d) is equal to the difference in number of mean parameters between
+the full and reduced models :
+```{r 2ha}
+12-1
+```
+
+Confirming that this difference is same as the
+difference between the residual degrees of freedom for the reduced model(51) and the
+residual degrees of freedom for the full model(40).
+```{r 2hb}
+51-40
+```

@@ -1,0 +1,25 @@
+Statistical Conclusion:
+
+According to the 2 sample t-test, we can say that there is no significant evidence against the null hypothesis ; that is the mean difference of the length of humerus between the perished and the survived is non-zero (p-value = 0.0809). The mean differences between that of perished and survived is 0.01 with a 95% confidence interval in the range -0.021446053 to 0.001279386.
+
+
+We could see from the graph that the mean length of humerus of survived is greater than the mean length of humerus of the perished.
+Diff = 0.011
+
+There is a moderate evidence that the mean length of humerus of survived is not equal to the mean length of humerus of the perished
+against the null hypothesis. With a 95% confidence interval
+
+
+There is no significant evidence against the null hypothesis that the mean length of humerus of the survived and the mean length of the humerus of perished are not equal (p-value =0.08).
+
+
+
+
+Sample standard deviation is computed for each of the samples, the distribution of the n sample distribution is the sampling distribution of sample standard deviation for samples 
+
+of size 2 taken with replacement from the population 1,2,3,4,5, and 6.  Likewise, you could 
+
+Compute the sample standard deviation for each of the n samples.  The distribution of these n sample standard deviations is the sampling distribution of sample standard deviations.
+ taken with replacement from the given population.
+
+calculate the standard deviation of the samples and plot their differences in the distribution, this is done for repeated sampling.
